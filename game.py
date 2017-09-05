@@ -1,41 +1,48 @@
-def welcome_story (user_name):
+import random
+import time
+
+
+def welcome_story(user_name):
     print ("Hello", user_name)
-    story=open(r"C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt").read()
+    story = open(r"C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt").read()
     print(story)
-    start = input ("Would you like to start the game? y or n")
+
+    start = input("Would you like to start the game? y or n")
+
     if start == "y":
         first_level()
     elif start == "n":
         print ("You will die anyway")
     else:
         welcome_story(user_name)
+
     
+def display_game():
 
-def first_level():
-    width = 70
-    height = 15
-    board = []
-    element_full = []
-    for i in range(width):
-        element_full.append("X")
-    element_blanks = []
+    print("Hello Knight!")
+    print("Well, " + user_name + " if you want to go out alive you have to guess the number between 1-50")
 
-    element_blanks.append("X")
-    for i in range(width - 2):
-        element_blanks.append(" ")
-    element_blanks.append("X")
-    board.append(element_full)
+    random_number = random.randint(1, 50)
 
-    for i in range(height - 2):
-        board.append(element_blanks)
-    board.append(element_full)
+    while True:
+        user_number = int(input("What is your guess? "))
+        if random_number == user_number:
+            break
+        elif random_number < user_number:
+            print("{}{}".format(user_number, " is too high"))
+        else:
+            print("{}{}".format(user_number, " is too low!"))
 
-    for n in board:
-       print(''.join(n))
-    pass
+    print ("Yes " + str(user_number) + " is my secret number! Congratulations.")
 
-def main ():
-    user_name = input ("Enter your name: ")
+display_game()
+
+
+
+def main():
+    user_name = input("Enter your name: ")
     welcome_story(user_name)
+    start_time = time.time()
+    points = 0
 
-main ()
+main()
