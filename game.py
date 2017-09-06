@@ -1,5 +1,6 @@
 import os
 import random
+import time
 
 def getch():
     import sys, tty, termios
@@ -255,7 +256,8 @@ def main():
         print("LOSE")'''  
 
 
-
+# start_time = time.time() wstawimy na początek
+# game_time = int(time.time() - start_time) wstawimy na koniec
 
 main()
 
