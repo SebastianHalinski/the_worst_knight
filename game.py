@@ -110,6 +110,19 @@ def map_2():
     return map_1_list
 
 
+def monster(stats_dict):
+    monster_helth = 20
+    attack_power = stats_dict['str']
+    print(attack_power)
+    while monster_helth >= 0:
+        i = getch()
+        if i == 'e':
+            monster_helth -= attack_power
+    print("die")
+
+
+
+
 def move(map_1_list, stats_dict, charracter_status_list):
     start_position = 73
     left_right = 1
@@ -118,6 +131,27 @@ def move(map_1_list, stats_dict, charracter_status_list):
         print(''.join(map_1_list))
         stats_disp(stats_dict)
         print(''.join(charracter_status_list[0]) + ' Your class is: ' + ''.join(charracter_status_list[1]))
+
+        if map_1_list[649] == '@' and map_1_list[720] == '2':
+            print('Monster')
+            monster(stats_dict)
+            map_1_list[720] = '.'
+        elif map_1_list[269] == '@' and map_1_list[198] == '4':
+            print('Monster')
+            monster(stats_dict)
+            map_1_list[198] = '.'
+        elif map_1_list[96] == '@' and map_1_list[95] == '1':
+            print('Monster')
+            monster(stats_dict)
+            map_1_list[95] = '.'
+        elif map_1_list[685] == '@' and map_1_list[684] == '3':
+            print('Mini Boss')
+            display_game()
+            input("well done! Press any key to continue")
+            map_1_list[684] = '.'
+            if map_1_list[684] == '.':
+                break
+
         i = getch()
 
         if i == "a" and map_1_list[start_position - left_right] == '.':
@@ -166,9 +200,11 @@ def display_game():
             break
 
         elif random_number < user_number:
+            os.system('clear')
             print('{}{}'.format(user_number, ' is too high'))
 
         else:
+            os.system('clear')
             print('{}{}'.format(user_number, ' is too low!'))
 
     print ('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
@@ -294,6 +330,7 @@ def main():
     stats_dict = charracter_status_dict(charracter_status_list)
     stats_disp(stats_dict)
     map_1_list = map_1()
+
     print('press C to start')
 
     if getch() == 'c':
