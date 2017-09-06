@@ -1,4 +1,6 @@
 import os
+import random
+import time
 
 def getch():
     import sys, tty, termios
@@ -137,17 +139,179 @@ def move(map_1_list):
             os.system('clear')
 
 
+
+
+# Level_1 - Guess the number
+
+
+def display_game():
+
+    user_name = input('What is your name ?')
+    print('Hello ' + user_name)
+    print('Well, ' + user_name + ' if you want to go out alive you have to guess the number between 1-50')
+
+    random_number = random.randint(1, 50)
+
+    while True:
+        user_number = int(input('What is your guess? '))
+
+        if random_number == user_number:
+            break
+
+        elif random_number < user_number:
+            print('{}{}'.format(user_number, ' is too high'))
+
+        else:
+            print('{}{}'.format(user_number, ' is too low!'))
+
+    print ('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
+
+display_game()
+
+# Level_2 - Answer the questions
+
+file_name = r'/home/katarzyna/the_worst_knight/question_answer.txt'
+
+
+def display_question(file_name):
+    question_file = open(file_name, 'r')
+    question_list = []
+
+    for line in question_file:
+        question_list.append(line)
+    # print(''.join(question_list))
+    return question_list
+
+
+def questions():
+    answer_list = []
+    question_list = display_question(file_name)
+
+    for element in range(len(question_list)):
+        print(question_list[element])
+        answer = input('My answer is: ')
+
+        if answer == 'yes' or answer == 'Yes' or answer == 'YES':
+            print('That is wrong answer')
+
+        elif answer == 'no' or answer == 'No' or answer == 'NO':
+            print('Yes, you right !')
+
+        elif answer != 'yes' or answer != 'Yes' or answer != 'YES':
+            print('That is wrong answer')
+
+        elif answer != 'no' or answer != 'No' or answer != 'NO':
+            print('That is wrong answer')
+
+        answer_list.append(answer)
+
+    return answer_list
+
+
+def check_answer():
+    points = 0
+    answer_list = questions()
+
+    for element in answer_list:
+
+        if element == 'no' or element == 'No' or element == 'NO':
+            points += 1
+        else:
+            print('You lose !')
+            break
+
+    print('You have: ' + str(points) + ' point(s)')
+
+check_answer()
+
+
+# Level_3
+
+def get_random_number():
+    number_list = []
+    while len(number_list) < 3:
+        digit = random.randint(0, 9)
+        if digit not in number_list:
+            number_list.append(digit)
+
+    return number_list
+
+
+def get_user_input():
+    while True:
+
+        user_guess = input("Enter the number: ")
+
+        if user_guess.isalpha():
+            print("Enter only digits")
+
+        elif len(user_guess) != 3:
+            print("Input hasnt 3 digits")
+
+        else:
+            return list(user_guess)
+
+
+def compare_user_input_witth_answer(user_guess, correct_answer):
+    index = 0
+    hint_list = []
+
+    for a in correct_answer:
+        if str(a) == user_guess[index]:
+            hint_list.insert(0, "HOT")
+
+        elif str(a) in user_guess:
+            hint_list.append("WORM")
+        index += 1
+
+    if not hint_list:
+        hint_list.append("cold")
+
+    return hint_list
+
+
+def check_result(hint_list):
+    if hint_list == ["HOT"] * 3:
+        return True
+
+
+
+
+
+
+
 def main():
     user_name = input("Enter your name: ")
     welcome_story(user_name)
     character_creation(user_name)
     map_1_list = map_1()
     print('press C to start')
+
     if getch() == 'c':
         os.system('clear')
         move(map_1_list)
+
     map_1_list = map_2()
     move(map_1_list)
 
 
-main()
+
+# Level_3
+
+   ''' correct_answer = get_random_number()
+
+    tries_left = 10
+    while tries_left > 0:
+        user_guess = get_user_input()
+        result = compare_user_input_witth_answer(user_guess, correct_answer)
+        print(result)
+        if check_result(result):
+            print("WIN")
+            break
+        tries_left -= 1
+    if tries_left == 0:
+        print("LOSE")'''
+
+
+# start_time = time.time() wstawimy na początek
+# game_time = int(time.time() - start_time) wstawimy na koniec
