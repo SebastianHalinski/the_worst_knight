@@ -7,6 +7,11 @@ def welcome_story(user_name):
     story = open(r"C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt").read()
     print(story)
 
+
+    """file_name = "C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt"
+    text_file = open(file_name, "r")
+    lines = text_file.readlines()"""
+
     start = input("Would you like to start the game? y or n")
 
     if start == "y":
@@ -16,6 +21,7 @@ def welcome_story(user_name):
     else:
         welcome_story(user_name)
 
+# =================== Level 1 =======================================
     
 def display_game():
 
@@ -46,3 +52,9 @@ def main():
     points = 0
 
 main()
+
+    print("Hello Knight!")
+    print("Well, " + user_name + " if you want to go out alive you have to guess the number between 1-50")
+
+    random_number = random.randint(1, 50)
+
