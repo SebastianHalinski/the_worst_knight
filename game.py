@@ -77,7 +77,7 @@ def character_creation(user_name):
 
 
 def hud_display(status_dict, charracter_status_list):
-    
+
     pass
 
 
