@@ -13,6 +13,7 @@ def getch():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
+    
 def welcome_story(user_name):
     os.system("clear")
     print("Hello", user_name)
@@ -53,7 +54,7 @@ def character_creation(user_name):
             choose_class_list[start_position + up_down] = '*'
             choose_class_list[start_position] = '_'
             start_position += up_down
-        elif i == 'q':
+        elif i == 'c':
             break
         else:
             os.system('clear')
@@ -64,7 +65,6 @@ def character_creation(user_name):
         charracter_status_list.append('Sparta!!!!')
     elif choose_class_list[85] == '*':
         charracter_status_list.append('Mage (not recomend)')
-
     print(''.join(charracter_status_list[0]) + ' Your class is: ' + ''.join(charracter_status_list[1]))
 
     return charracter_status_list
@@ -110,39 +110,42 @@ def map_2():
     return map_1_list
 
 
-def monster(stats_dict):
-    monster_helth = 20
+def monster(stats_dict, monster_helth):
+
     attack_power = stats_dict['str']
-    print(attack_power)
+    print("monster HP: " + str(monster_helth))
     while monster_helth >= 0:
         i = getch()
         if i == 'e':
             monster_helth -= attack_power
+            print("monster HP: " + str(monster_helth))
     print("die")
 
 
 
 
 def move(map_1_list, stats_dict, charracter_status_list):
+
     start_position = 73
     left_right = 1
     up_down = 71
+    monster_helth = 20
     while True:
         print(''.join(map_1_list))
         stats_disp(stats_dict)
         print(''.join(charracter_status_list[0]) + ' Your class is: ' + ''.join(charracter_status_list[1]))
-
+#first map
         if map_1_list[649] == '@' and map_1_list[720] == '2':
-            print('Monster')
-            monster(stats_dict)
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict, monster_helth)
             map_1_list[720] = '.'
         elif map_1_list[269] == '@' and map_1_list[198] == '4':
-            print('Monster')
-            monster(stats_dict)
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict, monster_helth)
             map_1_list[198] = '.'
         elif map_1_list[96] == '@' and map_1_list[95] == '1':
-            print('Monster')
-            monster(stats_dict)
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict,  monster_helth)
             map_1_list[95] = '.'
         elif map_1_list[685] == '@' and map_1_list[684] == '3':
             print('Mini Boss')
@@ -151,7 +154,24 @@ def move(map_1_list, stats_dict, charracter_status_list):
             map_1_list[684] = '.'
             if map_1_list[684] == '.':
                 break
+#second map
+        if map_1_list[713] == '@' and map_1_list[712] == '5':
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict, monster_helth)
+            map_1_list[712] = '.'
+        if map_1_list[108] == '@' and map_1_list[109] == '6':
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict, monster_helth)
+            map_1_list[109] = '.'
+        if map_1_list[694] == '@' and map_1_list[765] == '7':
+            print('Monster!!! Press "e" to attack')
+            monster(stats_dict,  monster_helth)
+            print('WTF??? o_O')
+            map_1_list[765] = '.'
+            #check_answer()
 
+
+#move
         i = getch()
 
         if i == "a" and map_1_list[start_position - left_right] == '.':
@@ -330,14 +350,15 @@ def main():
     stats_dict = charracter_status_dict(charracter_status_list)
     stats_disp(stats_dict)
     map_1_list = map_1()
-
-    print('press C to start')
-
-    if getch() == 'c':
+    print('press "C" to start')
+    print('press "B" to back')
+    i = getch()
+    if i == 'c':
         os.system('clear')
         move(map_1_list, stats_dict, charracter_status_list)
 
     map_1_list = map_2()
+    print(map_1_list.index("5"))
     move(map_1_list, stats_dict, charracter_status_list)
 main()
 
