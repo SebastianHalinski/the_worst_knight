@@ -64,23 +64,29 @@ def character_creation(user_name):
         charracter_status_list.append('Sparta!!!!')
     elif choose_class_list[85] == '*':
         charracter_status_list.append('Mage (not recomend)')
-    print(' '.join(charracter_status_list))
+
+    print(''.join(charracter_status_list[0]) + ' Your class is: ' + ''.join(charracter_status_list[1]))
+
+    return charracter_status_list
 
 
+def charracter_status_dict(charracter_status_list):
     if charracter_status_list[1] == 'Stupid Warrior':
         stats_dict = {'str': 8, 'dex': 2, 'int': 0}
     if charracter_status_list[1] == 'Sparta!!!!':
         stats_dict = {'str': 9, 'dex': 9, 'int': 5}
     if charracter_status_list[1] == 'Mage (not recomend)':
         stats_dict = {'str': 1, 'dex': 4, 'int': 9}
-    print(stats_dict)
 
-    return stats_dict, charracter_status_list
+    return stats_dict
 
 
-def hud_display(status_dict, charracter_status_list):
+def stats_disp(stats_dict):
+    for i in stats_dict:
+        stats = (str(stats_dict[i]) + ': ' + str(i))
+        print(stats)
+    return stats
 
-    pass
 
 
 def map_1():
@@ -104,13 +110,14 @@ def map_2():
     return map_1_list
 
 
-def move(map_1_list):
+def move(map_1_list, stats_dict, charracter_status_list):
     start_position = 73
     left_right = 1
     up_down = 71
-
     while True:
         print(''.join(map_1_list))
+        stats_disp(stats_dict)
+        print(''.join(charracter_status_list[0]) + ' Your class is: ' + ''.join(charracter_status_list[1]))
         i = getch()
 
         if i == "a" and map_1_list[start_position - left_right] == '.':
@@ -166,7 +173,7 @@ def display_game():
 
     print ('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
 
-display_game()
+#display_game()
 
 # Level_2 - Answer the questions
 
@@ -222,7 +229,7 @@ def check_answer():
 
     print('You have: ' + str(points) + ' point(s)')
 
-check_answer()
+#check_answer()
 
 
 # Level_3
@@ -283,22 +290,24 @@ def check_result(hint_list):
 def main():
     user_name = input("Enter your name: ")
     welcome_story(user_name)
-    character_creation(user_name)
+    charracter_status_list = character_creation(user_name)
+    stats_dict = charracter_status_dict(charracter_status_list)
+    stats_disp(stats_dict)
     map_1_list = map_1()
     print('press C to start')
 
     if getch() == 'c':
         os.system('clear')
-        move(map_1_list)
+        move(map_1_list, stats_dict, charracter_status_list)
 
     map_1_list = map_2()
-    move(map_1_list)
-
+    move(map_1_list, stats_dict, charracter_status_list)
+main()
 
 
 # Level_3
 
-   ''' correct_answer = get_random_number()
+''' correct_answer = get_random_number()
 
     tries_left = 10
     while tries_left > 0:
