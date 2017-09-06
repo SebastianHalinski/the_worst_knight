@@ -1,16 +1,78 @@
-import random
-import time
+import os
+
+def getch():
+    import sys, tty, termios
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
-def welcome_story(user_name):
+
+def map_1():
+    path = r'/home/sebastian/Dokumenty/The_worst_knight/map1.txt'
+    file_name = open(path, "r")
+    map_1_list = []
+    for map_1_row in file_name:
+        for i in map_1_row:
+            map_1_list.append(i)
+    return map_1_list
+
+
+def map_2():
+    path = r'/home/sebastian/Dokumenty/The_worst_knight/map2.txt'
+    file_name = open(path, "r")
+    map_1_list = []
+    for map_1_row in file_name:
+        for i in map_1_row:
+            map_1_list.append(i)
+    return map_1_list
+
+
+def move(map_1_list):
+    start_position = 73
+    left_right = 1
+    up_down = 71
+
+    while True:
+        print(''.join(map_1_list))
+        i = getch()
+
+        if i == "a" and map_1_list[start_position - left_right] == '.':
+            os.system('clear')
+            map_1_list[start_position - left_right] = '@'
+            map_1_list[start_position] = "."
+            start_position -= left_right
+        elif i == "d" and map_1_list[start_position + left_right] == '.':
+            os.system('clear')
+            map_1_list[start_position + left_right] = '@'
+            map_1_list[start_position] = "."
+            start_position += left_right
+        elif i == "w" and map_1_list[start_position - up_down] == '.':
+            os.system('clear')
+            map_1_list[start_position - up_down] = '@'
+            map_1_list[start_position] = "."
+            start_position -= up_down
+        elif i == "s" and map_1_list[start_position + up_down] == '.':
+            os.system('clear')
+            map_1_list[start_position + up_down] = '@'
+            map_1_list[start_position] = "."
+            start_position += up_down
+        elif i == "q":
+            break
+        else:
+            os.system('clear')
+
+
+def welcome_story (user_name):
     print ("Hello", user_name)
     story = open(r"C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt").read()
     print(story)
-
-
-    """file_name = "C:\Users\Marta\Documents\codecool\python\game_knight\the_worst_knight\story.txt"
-    text_file = open(file_name, "r")
-    lines = text_file.readlines()"""
+"
 
     start = input("Would you like to start the game? y or n")
 
@@ -21,40 +83,19 @@ def welcome_story(user_name):
     else:
         welcome_story(user_name)
 
-# =================== Level 1 =======================================
-    
-def display_game():
-
-    print("Hello Knight!")
-    print("Well, " + user_name + " if you want to go out alive you have to guess the number between 1-50")
-
-    random_number = random.randint(1, 50)
-
-    while True:
-        user_number = int(input("What is your guess? "))
-        if random_number == user_number:
-            break
-        elif random_number < user_number:
-            print("{}{}".format(user_number, " is too high"))
-        else:
-            print("{}{}".format(user_number, " is too low!"))
-
-    print ("Yes " + str(user_number) + " is my secret number! Congratulations.")
-
-display_game()
-
-
 
 def main():
-    user_name = input("Enter your name: ")
+    user_name = input ("Enter your name: ")
     welcome_story(user_name)
-    start_time = time.time()
-    points = 0
+    map_1_list = map_1()
+    print('press C to start')
+    if getch() == 'c':
+        os.system('clear')
+        move(map_1_list)
+    map_1_list = map_2()
+    move(map_1_list)
 
 main()
 
-    print("Hello Knight!")
-    print("Well, " + user_name + " if you want to go out alive you have to guess the number between 1-50")
 
-    random_number = random.randint(1, 50)
 
