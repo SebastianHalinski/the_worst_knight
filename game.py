@@ -32,7 +32,7 @@ def character_creation(user_name):
     print(user_name + 'Now choose Your profession')
     charracter_status_list.append(user_name)
     os.system('clear')
-    path = r'/home/sebastian/Dokumenty/The_worst_knight/choose_class.txt' # plik z wyborem klasy
+    path = 'choose_class.txt' # plik z wyborem klasy
     file_name = open(path, "r")
     choose_class_list = []
     for row in file_name:
