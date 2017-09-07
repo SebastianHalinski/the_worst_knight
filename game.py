@@ -13,11 +13,11 @@ def getch():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
-    
+
 def welcome_story(user_name):
     os.system("clear")
     print("Hello", user_name)
-    story = open(r'/home/sebastian/Dokumenty/The_worst_knight/story.txt').read()
+    story = open(r'story.txt').read()
     print(story)
     start = input("Would you like to start the game? y or n")
     if start == "y":
@@ -88,9 +88,50 @@ def stats_disp(stats_dict):
     return stats
 
 
+def how_to_play_screen():
+    os.system('clear')
+    path = 'howtoplay.txt'
+    file_name = open(path, "r")
+    howto = []
+    for howto_row in file_name:
+        for i in howto_row:
+            howto.append(i)
+    return howto
+
+
+def dragon():
+    os.system('clear')
+    path = 'dragon.txt'
+    file_name = open(path, "r")
+    drag = []
+    for drag_row in file_name:
+        for i in drag_row:
+            drag.append(i)
+    return drag
+
+
+def win_screen():
+    path = 'win.txt'
+    file_name = open(path, "r")
+    map_1_list = []
+    for map_1_row in file_name:
+        for i in map_1_row:
+            map_1_list.append(i)
+    return map_1_list
+
+
+def lose_screen():
+    path = 'Lose.txt'
+    file_name = open(path, "r")
+    lose = []
+    for lose_row in file_name:
+        for i in lose_row:
+            lose.append(i)
+    return print(lose)
+
 
 def map_1():
-    path = r'/home/sebastian/Dokumenty/The_worst_knight/map1.txt'
+    path = 'map1.txt'
     file_name = open(path, "r")
     map_1_list = []
     for map_1_row in file_name:
@@ -101,7 +142,7 @@ def map_1():
 
 def map_2():
     os.system('clear')
-    path = r'/home/sebastian/Dokumenty/The_worst_knight/map2.txt'
+    path = 'map2.txt'
     file_name = open(path, "r")
     map_1_list = []
     for map_1_row in file_name:
@@ -168,7 +209,9 @@ def move(map_1_list, stats_dict, charracter_status_list):
             monster(stats_dict,  monster_helth)
             print('WTF??? o_O')
             map_1_list[765] = '.'
-            #check_answer()
+            input("Good Job. I have something for You if You want kill BOSS\n Just answer correctly!!\n PRESS ENTER TO START")
+            check_answer()
+            break
 
 
 #move
@@ -216,15 +259,13 @@ def display_game():
     while True:
         user_number = int(input('What is your guess? '))
 
-        if random_number == user_number:
+        if rdisplay_game().random_number == user_number:
             break
 
         elif random_number < user_number:
-            os.system('clear')
             print('{}{}'.format(user_number, ' is too high'))
 
         else:
-            os.system('clear')
             print('{}{}'.format(user_number, ' is too low!'))
 
     print ('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
@@ -233,7 +274,7 @@ def display_game():
 
 # Level_2 - Answer the questions
 
-file_name = r'/home/katarzyna/the_worst_knight/question_answer.txt'
+file_name = r'/home/sebastian/Dokumenty/The_worst_knight/question_answer.txt'
 
 
 def display_question(file_name):
@@ -251,6 +292,7 @@ def questions():
     question_list = display_question(file_name)
 
     for element in range(len(question_list)):
+        os.system('clear')
         print(question_list[element])
         answer = input('My answer is: ')
 
@@ -340,21 +382,28 @@ def check_result(hint_list):
 
 def main():
     user_name = input("Enter your name: ")
+    howto = how_to_play_screen()
+    print(''.join(howto))
+    input("Enter to continue")
     welcome_story(user_name)
     charracter_status_list = character_creation(user_name)
     stats_dict = charracter_status_dict(charracter_status_list)
     stats_disp(stats_dict)
     map_1_list = map_1()
     print('press "C" to start')
-    print('press "B" to back')
     i = getch()
     if i == 'c':
         os.system('clear')
         move(map_1_list, stats_dict, charracter_status_list)
 
     map_1_list = map_2()
-    print(map_1_list.index("5"))
     move(map_1_list, stats_dict, charracter_status_list)
+    input('Enter to continue')
+    drag = dragon()
+    print(''.join(drag))
+    input()
+
+
 main()
 
 
