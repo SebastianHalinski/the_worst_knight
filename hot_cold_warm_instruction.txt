@@ -1,11 +1,16 @@
 Hot Cold Warm game ! 
 
-Program random 3-digit number with no repeating digits, and you try to guess what the number is. After each guess, program gives you three types of clues:
+Program random 3-digit number with no repeating digits, 
+and you try to guess what the number is. 
+After each guess, program gives you three types of clues:
 
-Cold – None of the three digits you guessed is in the secret number.
+Cold – None of the three digits you guessed 
+       is in the secret number.
 
-Warm – One of the digits is in the secret number, but your guess has the digit in the wrong place.
+Warm – One of the digits is in the secret number, 
+       but your guess has the digit in the wrong place.
 
-Hot – Your guess has a correct digit in the correct place.
+Hot – Your guess has a correct digit 
+      in the correct place.
 
 You have 10 guesses.

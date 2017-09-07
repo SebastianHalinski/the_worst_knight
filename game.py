@@ -2,6 +2,7 @@ import os
 import random
 import time
 
+
 def getch():
     import sys, tty, termios
     fd = sys.stdin.fileno()
@@ -23,7 +24,7 @@ def welcome_story(user_name):
     if start == "y":
         pass
     elif start == "n":
-        print("You will die anyway")
+        exit()
     else:
         welcome_story(user_name)
 
@@ -40,6 +41,7 @@ def character_creation(user_name):
             choose_class_list.append(i)
 
     start_position = 29
+    choose_class_list[start_position] = '*'
     up_down = 28
     while True:
         print("".join(choose_class_list))
@@ -58,6 +60,7 @@ def character_creation(user_name):
             break
         else:
             os.system('clear')
+            pass
 
     if choose_class_list[29] == '*':
         charracter_status_list.append('Stupid Warrior')
@@ -108,6 +111,17 @@ def dragon():
         for i in drag_row:
             drag.append(i)
     return drag
+
+
+def hot_warm_cold_instruction():
+    os.system('clear')
+    path = 'hot_cold_warm_instruction.txt'
+    file_name = open(path, "r")
+    hwc = []
+    for hwc_row in file_name:
+        for i in hwc_row:
+            hwc.append(i)
+    return hwc
 
 
 def win_screen():
@@ -163,9 +177,7 @@ def monster(stats_dict, monster_helth):
     print("die")
 
 
-
-
-def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose):
+def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose, user_name, hwc, file_name):
 
     start_position = 73
     left_right = 1
@@ -193,7 +205,7 @@ def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose):
             map_1_list[95] = '.'
         elif map_1_list[685] == '@' and map_1_list[684] == '3':
             print('Mini Boss')
-            display_game()
+            display_game(user_name)
             points_add(points)
             input("well done! Press any key to continue")
             map_1_list[684] = '.'
@@ -217,9 +229,12 @@ def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose):
             print('WTF??? o_O')
             map_1_list[765] = '.'
             input("Good Job. I have something for You if You want kill BOSS\n Just answer correctly!!\n PRESS ENTER TO START")
-            check_answer(lose, points)
+            check_answer(lose, points, file_name)
             os.system('clear')
             input('Now You have to play in cold, hot, warm game\n PRESS ENTER TO START')
+            print(''.join(hwc))
+            input('Press Enter to continue')
+            os.system('clear')
             final_quest(drag, lose, points)
             break
 
@@ -251,40 +266,33 @@ def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose):
             break
         else:
             os.system('clear')
+            pass
 
 
+def display_game(user_name):
 
-
-# Level_1 - Guess the number
-
-
-def display_game():
-
-    user_name = input('What is your name ?')
     print('Hello ' + user_name)
     print('Well, ' + user_name + ' if you want to go out alive you have to guess the number between 1-50')
 
     random_number = random.randint(1, 50)
 
     while True:
-        user_number = int(input('What is your guess? '))
-
-        if random_number == user_number:
+        user_number = input('What is your guess? ')
+        if not user_number.isnumeric():
+            print('only numbers!!!')
+            pass
+        elif random_number == int(user_number):
             break
 
-        elif random_number < user_number:
+        elif random_number < int(user_number):
             print('{}{}'.format(user_number, ' is too high'))
 
         else:
             print('{}{}'.format(user_number, ' is too low!'))
 
-    print ('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
-
-#display_game()
+    print('Yes ' + str(user_number) + ' is my secret number! Congratulations.')
 
 # Level_2 - Answer the questions
-
-file_name = 'question_answer.txt'
 
 
 def display_question(file_name):
@@ -297,7 +305,7 @@ def display_question(file_name):
     return question_list
 
 
-def questions(points):
+def questions(points, file_name):
     answer_list = []
     question_list = display_question(file_name)
 
@@ -324,9 +332,9 @@ def questions(points):
     return answer_list
 
 
-def check_answer(lose, points):
+def check_answer(lose, points, file_name):
     point = 0
-    answer_list = questions(points)
+    answer_list = questions(points, file_name)
 
     for element in answer_list:
 
@@ -340,9 +348,6 @@ def check_answer(lose, points):
             break
 
     print('You have: ' + str(point) + ' point(s)')
-
-#check_answer()
-
 
 # Level_3
 
@@ -428,10 +433,21 @@ def export_score(user_name, score):
     items_to_export = [str(user_name) + '.....score.....' + str(score)]
     path = 'export.txt'
     with open(path, 'a') as fileexport:
-        fileexport.write(str("".join(items_to_export)))
+        fileexport.write(str("".join(items_to_export)) + '\n')
+
+
+def hall_of_fame():
+    path = 'export.txt'
+    with open(path, 'r') as fileexport:
+        for row in fileexport:
+            print(''.join(row))
+        input()
+
 
 def main():
+    file_name = 'question_answer.txt'
     start_time = time.time()
+    hwc = hot_warm_cold_instruction()
     lose = lose_screen()
     win = win_screen()
     drag = dragon()
@@ -445,14 +461,11 @@ def main():
     stats_dict = charracter_status_dict(charracter_status_list)
     stats_disp(stats_dict)
     map_1_list = map_1()
-    print('press "C" to start')
-    i = getch()
-    if i == 'c':
-        os.system('clear')
-        move(map_1_list, stats_dict, charracter_status_list, points, drag, lose)
-
+    input('press Enter to start')
+    os.system('clear')
+    move(map_1_list, stats_dict, charracter_status_list, points, drag, lose, user_name, hwc, file_name)
     map_1_list = map_2()
-    move(map_1_list, stats_dict, charracter_status_list, points, drag, lose)
+    move(map_1_list, stats_dict, charracter_status_list, points, drag, lose, user_name, hwc, file_name)
     game_time = int(time.time() - start_time)
     input('Enter to continue')
     print('Your points = ' + str(len(points)))
@@ -461,7 +474,11 @@ def main():
     print('Your score = ' + str(score))
     input('Enter to continue')
     print(''.join(win))
+    hall_of_fame_entry = input('Press Enter to END or H to Hall of fame')
     export_score(user_name, score)
+    if hall_of_fame_entry == 'h':
+        hall_of_fame()
+    input('Enter to exit')
     exit()
 
 
