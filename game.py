@@ -28,11 +28,11 @@ def welcome_story(user_name):
         welcome_story(user_name)
 
 def character_creation(user_name):
-    charracter_status_list = []
+    charracter_status_list = []  
     print(user_name + 'Now choose Your profession')
     charracter_status_list.append(user_name)
     os.system('clear')
-    path = r'/home/sebastian/Dokumenty/The_worst_knight/choose_class.txt'
+    path = r'/home/sebastian/Dokumenty/The_worst_knight/choose_class.txt' # plik z wyborem klasy
     file_name = open(path, "r")
     choose_class_list = []
     for row in file_name:
@@ -72,7 +72,7 @@ def character_creation(user_name):
 
 def charracter_status_dict(charracter_status_list):
     if charracter_status_list[1] == 'Stupid Warrior':
-        stats_dict = {'str': 8, 'dex': 2, 'int': 0}
+        stats_dict = {'str': 8, 'dex': 2, 'int': 0} # siła zwinnosc inteligencja
     if charracter_status_list[1] == 'Sparta!!!!':
         stats_dict = {'str': 9, 'dex': 9, 'int': 5}
     if charracter_status_list[1] == 'Mage (not recomend)':
@@ -338,11 +338,6 @@ def check_result(hint_list):
         return True
 
 
-
-
-
-
-
 def main():
     user_name = input("Enter your name: ")
     welcome_story(user_name)
@@ -380,5 +375,5 @@ main()
         print("LOSE")'''
 
 
-# start_time = time.time() wstawimy na początek
-# game_time = int(time.time() - start_time) wstawimy na koniec
+# start_time = time.time()      wstawimy na początek
+# game_time = int(time.time() - start_time      wstawimy na koniec
