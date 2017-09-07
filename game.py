@@ -127,7 +127,7 @@ def lose_screen():
     for lose_row in file_name:
         for i in lose_row:
             lose.append(i)
-    return print(lose)
+    return lose
 
 
 def map_1():
@@ -165,7 +165,7 @@ def monster(stats_dict, monster_helth):
 
 
 
-def move(map_1_list, stats_dict, charracter_status_list):
+def move(map_1_list, stats_dict, charracter_status_list, points, drag, lose):
 
     start_position = 73
     left_right = 1
@@ -179,18 +179,22 @@ def move(map_1_list, stats_dict, charracter_status_list):
         if map_1_list[649] == '@' and map_1_list[720] == '2':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict, monster_helth)
+            points_add(points)
             map_1_list[720] = '.'
         elif map_1_list[269] == '@' and map_1_list[198] == '4':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict, monster_helth)
+            points_add(points)
             map_1_list[198] = '.'
         elif map_1_list[96] == '@' and map_1_list[95] == '1':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict,  monster_helth)
+            points_add(points)
             map_1_list[95] = '.'
         elif map_1_list[685] == '@' and map_1_list[684] == '3':
             print('Mini Boss')
             display_game()
+            points_add(points)
             input("well done! Press any key to continue")
             map_1_list[684] = '.'
             if map_1_list[684] == '.':
@@ -199,18 +203,24 @@ def move(map_1_list, stats_dict, charracter_status_list):
         if map_1_list[713] == '@' and map_1_list[712] == '5':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict, monster_helth)
+            points_add(points)
             map_1_list[712] = '.'
         if map_1_list[108] == '@' and map_1_list[109] == '6':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict, monster_helth)
+            points_add(points)
             map_1_list[109] = '.'
         if map_1_list[694] == '@' and map_1_list[765] == '7':
             print('Monster!!! Press "e" to attack')
             monster(stats_dict,  monster_helth)
+            points_add(points)
             print('WTF??? o_O')
             map_1_list[765] = '.'
             input("Good Job. I have something for You if You want kill BOSS\n Just answer correctly!!\n PRESS ENTER TO START")
-            check_answer()
+            check_answer(lose, points)
+            os.system('clear')
+            input('Now You have to play in cold, hot, warm game\n PRESS ENTER TO START')
+            final_quest(drag, lose, points)
             break
 
 
@@ -259,7 +269,7 @@ def display_game():
     while True:
         user_number = int(input('What is your guess? '))
 
-        if rdisplay_game().random_number == user_number:
+        if random_number == user_number:
             break
 
         elif random_number < user_number:
@@ -287,7 +297,7 @@ def display_question(file_name):
     return question_list
 
 
-def questions():
+def questions(points):
     answer_list = []
     question_list = display_question(file_name)
 
@@ -300,6 +310,7 @@ def questions():
             print('That is wrong answer')
 
         elif answer == 'no' or answer == 'No' or answer == 'NO':
+            points_add(points)
             print('Yes, you right !')
 
         elif answer != 'yes' or answer != 'Yes' or answer != 'YES':
@@ -313,19 +324,22 @@ def questions():
     return answer_list
 
 
-def check_answer():
-    points = 0
-    answer_list = questions()
+def check_answer(lose, points):
+    point = 0
+    answer_list = questions(points)
 
     for element in answer_list:
 
         if element == 'no' or element == 'No' or element == 'NO':
-            points += 1
+            point += 1
         else:
-            print('You lose !')
+            os.system('clear')
+            print(''.join(lose))
+            input('Press Enter to exit')
+            exit()
             break
 
-    print('You have: ' + str(points) + ' point(s)')
+    print('You have: ' + str(point) + ' point(s)')
 
 #check_answer()
 
@@ -357,7 +371,7 @@ def get_user_input():
             return list(user_guess)
 
 
-def compare_user_input_witth_answer(user_guess, correct_answer):
+def compare_user_input_witth_answer(user_guess, correct_answer, drag):
     index = 0
     hint_list = []
 
@@ -368,24 +382,53 @@ def compare_user_input_witth_answer(user_guess, correct_answer):
         elif str(a) in user_guess:
             hint_list.append("WORM")
         index += 1
-
+        os.system('clear')
+        print(''.join(drag))
     if not hint_list:
         hint_list.append("cold")
-
+        os.system('clear')
+        print(''.join(drag))
     return hint_list
 
 
-def check_result(hint_list):
+def check_result(hint_list, points):
     if hint_list == ["HOT"] * 3:
+        points_add(points)
         return True
 
 
+def points_add(points):
+    points.append(1)
+    return points
 
+# Level_3
+def final_quest(drag, lose, points):
+    correct_answer = get_random_number()
+    print(''.join(drag))
+    tries_left = 10
+    while tries_left > 0:
+        user_guess = get_user_input()
+        result = compare_user_input_witth_answer(user_guess, correct_answer, drag)
+        print(result)
+        if check_result(result, points):
+            print("WIN")
+            break
+        tries_left -= 1
+    if tries_left == 0:
+        os.system('clear')
+        print(''.join(lose))
+        print('Pres Enter to exit')
+        exit()
 
-
+# start_time = time.time() wstawimy na początek
+# game_time = int(time.time() - start_time) wstawimy na koniec
 
 
 def main():
+    start_time = time.time()
+    lose = lose_screen()
+    drag = dragon()
+    points = []
     user_name = input("Enter your name: ")
     howto = how_to_play_screen()
     print(''.join(howto))
@@ -399,35 +442,17 @@ def main():
     i = getch()
     if i == 'c':
         os.system('clear')
-        move(map_1_list, stats_dict, charracter_status_list)
+        move(map_1_list, stats_dict, charracter_status_list, points, drag, lose)
 
     map_1_list = map_2()
-    move(map_1_list, stats_dict, charracter_status_list)
+    move(map_1_list, stats_dict, charracter_status_list, points, drag, lose)
+    game_time = int(time.time() - start_time)
     input('Enter to continue')
-    drag = dragon()
-    print(''.join(drag))
+    print('Your points = ' + str(len(points)))
+    print('Your time = ' + str(game_time))
+    score = (int(len(points)) * 100) / int(game_time)
+    print('Your score = ' + str(score))
     input()
 
 
 main()
-
-
-# Level_3
-
-''' correct_answer = get_random_number()
-
-    tries_left = 10
-    while tries_left > 0:
-        user_guess = get_user_input()
-        result = compare_user_input_witth_answer(user_guess, correct_answer)
-        print(result)
-        if check_result(result):
-            print("WIN")
-            break
-        tries_left -= 1
-    if tries_left == 0:
-        print("LOSE")'''
-
-
-# start_time = time.time() wstawimy na początek
-# game_time = int(time.time() - start_time) wstawimy na koniec
