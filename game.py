@@ -424,6 +424,12 @@ def final_quest(drag, lose, points):
 # game_time = int(time.time() - start_time) wstawimy na koniec
 
 
+def export_score(user_name, score):
+    items_to_export = [str(user_name) + '.....score.....' + str(score)]
+    path = 'export.txt'
+    with open(path, 'a') as fileexport:
+        fileexport.write(str("".join(items_to_export)))
+
 def main():
     start_time = time.time()
     lose = lose_screen()
@@ -455,6 +461,7 @@ def main():
     print('Your score = ' + str(score))
     input('Enter to continue')
     print(''.join(win))
+    export_score(user_name, score)
     exit()
 
 
