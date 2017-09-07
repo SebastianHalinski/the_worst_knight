@@ -113,11 +113,11 @@ def dragon():
 def win_screen():
     path = 'win.txt'
     file_name = open(path, "r")
-    map_1_list = []
-    for map_1_row in file_name:
-        for i in map_1_row:
-            map_1_list.append(i)
-    return map_1_list
+    win = []
+    for win_row in file_name:
+        for i in win_row:
+            win.append(i)
+    return win
 
 
 def lose_screen():
@@ -284,7 +284,7 @@ def display_game():
 
 # Level_2 - Answer the questions
 
-file_name = r'/home/sebastian/Dokumenty/The_worst_knight/question_answer.txt'
+file_name = 'question_answer.txt'
 
 
 def display_question(file_name):
@@ -427,6 +427,7 @@ def final_quest(drag, lose, points):
 def main():
     start_time = time.time()
     lose = lose_screen()
+    win = win_screen()
     drag = dragon()
     points = []
     user_name = input("Enter your name: ")
@@ -452,7 +453,9 @@ def main():
     print('Your time = ' + str(game_time))
     score = (int(len(points)) * 100) / int(game_time)
     print('Your score = ' + str(score))
-    input()
+    input('Enter to continue')
+    print(''.join(win))
+    exit()
 
 
 main()
