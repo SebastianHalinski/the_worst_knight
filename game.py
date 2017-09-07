@@ -32,7 +32,7 @@ def character_creation(user_name):
     print(user_name + 'Now choose Your profession')
     charracter_status_list.append(user_name)
     os.system('clear')
-    path = r'/home/sebastian/Dokumenty/The_worst_knight/choose_class.txt'
+    path = r'/home/sebastian/Dokumenty/The_worst_knight/choose_class.txt' # plik z wyborem klasy
     file_name = open(path, "r")
     choose_class_list = []
     for row in file_name:
@@ -72,7 +72,7 @@ def character_creation(user_name):
 
 def charracter_status_dict(charracter_status_list):
     if charracter_status_list[1] == 'Stupid Warrior':
-        stats_dict = {'str': 8, 'dex': 2, 'int': 0}
+        stats_dict = {'str': 8, 'dex': 2, 'int': 0} # siła zwinnosc inteligencja
     if charracter_status_list[1] == 'Sparta!!!!':
         stats_dict = {'str': 9, 'dex': 9, 'int': 5}
     if charracter_status_list[1] == 'Mage (not recomend)':
